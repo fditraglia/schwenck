@@ -15,10 +15,15 @@ libretti <- libretti$text
 
 # Most of the frontmatter has already been stripped, as has the standard 
 # Project Gutenberg boilerplate after the text, since gutenberg_download() 
-# defaults to strip = TRUE, but there are many blank lines and every row seems
-# to appear twice. But the files on Gutenberg are clean.
+# defaults to strip = TRUE.
 head(libretti)
 tail(libretti)
+
+# ----------------------------- UPDATE!
+# I reported the bug described below and now everything has been resolved: 
+# remotes::install_github("ropensci/gutenbergr@c4ab740")
+
+# Every row appears twice but the files on Gutenberg are clean.
 
 # I forked the gutenbergr repo, pointed Claude code at it and provided the
 # code and comments from above. Claude found the error: it's from a faulty
@@ -30,27 +35,27 @@ tail(libretti)
 # left_join() with the work's metadata on the left, but this will have multiple
 # rows when there are multiple authors:
 
-# Plays of Gilberg & Sullivan (2 authors)
-gutenberg_metadata |> filter(gutenberg_id == 808)
-
-# The Federalist Papers (3 authors)
-gutenberg_metadata |> filter(gutenberg_id == 808)
-fed <- gutenberg_download(18)
-fed$text[1:10]
-
-
-# Pride and Prejudice (single author)
-gutenberg_metadata |> filter(gutenberg_id == 1342)
-pride <- gutenberg_download(1342) 
-pride$text[1:100]
-
-# Clean up examples of the bug
-rm(fed, pride)
-
-# I've submitted an issue on the GitHub page for gutenbergr about this. In the
-# meantime, I can simply keep every other row of the G&S libretti:
-
-libretti <- libretti[seq(1, length(libretti), by = 2)]
+## Plays of Gilberg & Sullivan (2 authors)
+#gutenberg_metadata |> filter(gutenberg_id == 808)
+#
+## The Federalist Papers (3 authors)
+#gutenberg_metadata |> filter(gutenberg_id == 808)
+#fed <- gutenberg_download(18)
+#fed$text[1:10]
+#
+#
+## Pride and Prejudice (single author)
+#gutenberg_metadata |> filter(gutenberg_id == 1342)
+#pride <- gutenberg_download(1342) 
+#pride$text[1:100]
+#
+## Clean up examples of the bug
+#rm(fed, pride)
+#
+## I've submitted an issue on the GitHub page for gutenbergr about this. In the
+## meantime, I can simply keep every other row of the G&S libretti:
+#
+#libretti <- libretti[seq(1, length(libretti), by = 2)]
 
 
 # Don't drop blank lines! We're going to imitate tiny Shakespeare: 
